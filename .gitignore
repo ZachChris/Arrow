@@ -7,5 +7,4 @@
 
 # Binaries
 **/bin/
-!vendor/premake/bin/
 bin-int/
