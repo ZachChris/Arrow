@@ -109,13 +109,13 @@ namespace Arrow {
 		s_Data->DrawShader->Bind();
 
 		s_Data->DrawShader->UploadUniformMat4("u_ProgView", controller.GetViewProgectionMatrix());
-		//s_Data->DrawShader->UploadUniformFloat3("u_ViewPos", controller.GetPosition());
+		s_Data->DrawShader->UploadUniformFloat3("u_ViewPos", controller.GetPosition());
 
-		//s_Data->DrawShader->UploadUniformFloat3("u_PointLight.Position", pointLight.GetPosition());
-		//s_Data->DrawShader->UploadUniformFloat3("u_PointLight.Color", pointLight.GetColor());
-		//s_Data->DrawShader->UploadUniformFloat("u_PointLight.Constant", pointLight.GetConstant());
-		//s_Data->DrawShader->UploadUniformFloat("u_PointLight.Linear", pointLight.GetLinear());
-		//s_Data->DrawShader->UploadUniformFloat("u_PointLight.Quadratic", pointLight.GetQuadratic());
+		s_Data->DrawShader->UploadUniformFloat3("u_PointLight.Position", pointLight.GetPosition());
+		s_Data->DrawShader->UploadUniformFloat3("u_PointLight.Color", pointLight.GetColor());
+		s_Data->DrawShader->UploadUniformFloat("u_PointLight.Constant", pointLight.GetConstant());
+		s_Data->DrawShader->UploadUniformFloat("u_PointLight.Linear", pointLight.GetLinear());
+		s_Data->DrawShader->UploadUniformFloat("u_PointLight.Quadratic", pointLight.GetQuadratic());
 
 		//s_Data->DrawShader->UploadUniformFloat3("u_SpotLight.Position", spotLight.GetPosition());
 		//s_Data->DrawShader->UploadUniformFloat3("u_SpotLight.Direction", spotLight.GetDirection());

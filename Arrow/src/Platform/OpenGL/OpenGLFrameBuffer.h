@@ -12,8 +12,8 @@ namespace Arrow {
 		virtual const FrameBufferSpecifications& GetSpecifications() const override { return m_Specs; }
 		virtual const uint32_t& GetColorAttachment() const override { return m_ColorAttachment; }
 
-		virtual const void Bind() override;
-		virtual const void Unbind() override;
+		virtual void Bind() const override;
+		virtual void Unbind() const override;
 	private:
 		void Invalidate();
 	private:

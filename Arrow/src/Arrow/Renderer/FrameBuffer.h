@@ -15,8 +15,8 @@ namespace Arrow {
 		virtual const FrameBufferSpecifications& GetSpecifications() const = 0;
 		virtual const uint32_t& GetColorAttachment() const = 0;
 
-		virtual const void Bind() = 0;
-		virtual const void Unbind() = 0;
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 
 		static std::shared_ptr<FrameBuffer> Create(const FrameBufferSpecifications& specs);
 	};

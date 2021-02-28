@@ -85,7 +85,6 @@ namespace Arrow {
 		std::string type = filepath.substr(pos, filepath.size());
 		if (type == "obj")
 			ProcessObjFile(filepath);
-		//ProcessFile(filepath);
 	}
 
 	Model::Model(std::shared_ptr<VertexBuffer> vertexBuffer, std::shared_ptr<IndexBuffer> indexBuffer)
@@ -105,9 +104,9 @@ namespace Arrow {
 		glm::vec2 texCoor;
 		glm::vec3 normal;
 
-		FILE* file = fopen(filepath.c_str(), "r");
+		FILE *file;
 
-		if (file == NULL)
+		if (fopen_s(& file, filepath.c_str(), "r") != 0)
 			AR_ERROR("Can't open file {0}", filepath);
 		else {
 			while (true) {
@@ -137,33 +136,9 @@ namespace Arrow {
 				}
 			}
 
-			std::vector<glm::vec3> tangent;
-			tangent.resize(vertexIndex.size());
-			glm::vec3 tang;
-			for (int i = 0; i < vertexIndex.size(); i += 3) {
-				glm::vec3 edge1 = vertices[vertexIndex[i + 1.0]] - vertices[vertexIndex[i]];
-				glm::vec3 edge2 = vertices[vertexIndex[i + 2.0]] - vertices[vertexIndex[i]];
-				glm::vec2 deltaUV1 = texCoords[texIndex[i + 1.0]] - texCoords[texIndex[i]];
-				glm::vec2 deltaUV2 = texCoords[texIndex[i + 2.0]] - texCoords[texIndex[i]];
-
-				float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
-
-
-				tang.x = (f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x));
-				tang.y = (f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y));
-				tang.z = (f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z));
-
-				tangent[vertexIndex[i]] += tang;
-				tangent[vertexIndex[i + 1.0]] += tang;
-				tangent[vertexIndex[i + 2.0]] += tang;
-			}
-			for (auto tang : tangent) {
-				glm::normalize(tang);
-			}
-
 			std::vector<unsigned int> indecies;
-			std::vector<float> vertexData;
-			std::unordered_map<int, int> indexMap;
+			std::vector<Vertex> vertex;
+			std::unordered_map<unsigned int, unsigned int> indexMap;
 			unsigned int currentIndex = 0;
 
 			for (unsigned int i = 0; i < vertexIndex.size(); i++) {
@@ -177,17 +152,7 @@ namespace Arrow {
 				}
 
 				if (previousIndex == -1) {
-					vertexData.push_back(vertices[vertexIndex[i]].x);
-					vertexData.push_back(vertices[vertexIndex[i]].y);
-					vertexData.push_back(vertices[vertexIndex[i]].z);
-					vertexData.push_back(texCoords[texIndex[i]].x);
-					vertexData.push_back(texCoords[texIndex[i]].y);
-					vertexData.push_back(normals[normalIndex[i]].x);
-					vertexData.push_back(normals[normalIndex[i]].y);
-					vertexData.push_back(normals[normalIndex[i]].z);
-					vertexData.push_back(tangent[vertexIndex[i]].x);
-					vertexData.push_back(tangent[vertexIndex[i]].y);
-					vertexData.push_back(tangent[vertexIndex[i]].z);
+					vertex.push_back(Vertex(vertices[vertexIndex[i]], texCoords[texIndex[i]], normals[normalIndex[i]]));
 
 					indecies.push_back(currentIndex);
 					indexMap[i] = currentIndex;
@@ -196,10 +161,27 @@ namespace Arrow {
 					indecies.push_back(indexMap[previousIndex]);
 			}
 
-			m_VertexBuffer = VertexBuffer::Create(vertexData.data(), vertexData.size() * sizeof(float));
-			m_IndexBuffer = IndexBuffer::Create(indecies.data(), indecies.size() * sizeof(unsigned int));
+			CalculateTangents(vertex, indecies);
 
-			Arrow::BufferLayout layout = {
+			std::vector<float> vertexData;
+			for (auto vrt : vertex) {
+				vertexData.push_back(vrt.Position.x);
+				vertexData.push_back(vrt.Position.y);
+				vertexData.push_back(vrt.Position.z);
+				vertexData.push_back(vrt.UV.x);
+				vertexData.push_back(vrt.UV.y);
+				vertexData.push_back(vrt.Normal.x);
+				vertexData.push_back(vrt.Normal.y);
+				vertexData.push_back(vrt.Normal.z);
+				vertexData.push_back(vrt.Tangent.x);
+				vertexData.push_back(vrt.Tangent.y);
+				vertexData.push_back(vrt.Tangent.z);
+			}
+
+			m_VertexBuffer = VertexBuffer::Create(vertexData.data(), (uint32_t)vertexData.size() * sizeof(float));
+			m_IndexBuffer = IndexBuffer::Create(indecies.data(), (uint32_t)indecies.size() * sizeof(unsigned int));
+
+			BufferLayout layout = {
 				{ ShaderDataType::Float3, "a_Position" },
 				{ ShaderDataType::Float2, "a_TexCoord"},
 				{ ShaderDataType::Float3, "a_NormalCoord"},
@@ -207,6 +189,30 @@ namespace Arrow {
 			};
 
 			m_VertexBuffer->SetLayout(layout);
+		}
+	}
+
+	void Model::CalculateTangents(std::vector<Vertex>& vertex, const std::vector<unsigned int>& index) {
+		glm::vec3 tang;
+		for (int i = 0; i < index.size(); i += 3) {
+			glm::vec3 edge1 = vertex[index[i + 1]].Position - vertex[index[i]].Position;
+			glm::vec3 edge2 = vertex[index[i + 2]].Position - vertex[index[i]].Position;
+			glm::vec2 deltaUV1 = vertex[index[i + 1]].UV - vertex[index[i]].UV;
+			glm::vec2 deltaUV2 = vertex[index[i + 2]].UV - vertex[index[i]].UV;
+
+			float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+
+			tang.x = (f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x));
+			tang.y = (f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y));
+			tang.z = (f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z));
+
+			vertex[index[i]].Tangent += tang;
+			vertex[index[i + 1]].Tangent += tang;
+			vertex[index[i + 2]].Tangent += tang;
+		}
+		for (auto vrt : vertex) {
+			glm::normalize(vrt.Tangent);
 		}
 	}
 

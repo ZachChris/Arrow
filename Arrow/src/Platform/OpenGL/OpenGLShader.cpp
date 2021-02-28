@@ -50,7 +50,8 @@ namespace Arrow {
 		if (type == "geomerty")
 			return GL_GEOMETRY_SHADER;
 
-		//Assert if type not found
+		ASSERT(false, "Invalid shader type found. Shader {0} does't exist", type);
+
 		return 0;
 	}
 
@@ -62,10 +63,9 @@ namespace Arrow {
 		size_t pos = source.find(token, 0);
 		while (pos != std::string::npos) {
 			size_t eol = source.find_first_of("\r\n", pos);
-			//Assert if eof = npos
+			ASSERT(false, "File is empty");
 			size_t begin = pos + tokenLeght + 1;
 			std::string type = source.substr(begin, eol - begin);
-			//Assert if type not valid
 
 			size_t nextLine = source.find_first_not_of("\r\n", eol);
 			pos = source.find(token, nextLine);
@@ -151,7 +151,7 @@ namespace Arrow {
 
 		uint32_t location = glGetUniformLocation(m_RendererID, name.c_str());
 		if (location == -1)
-			AR_ERROR("Invalid Uniform name ({0})!!", name);
+			AR_ERROR("Invalid Uniform name ({0})", name);
 		m_UniformCache[name] = location;
 
 		return m_UniformCache[name];

@@ -38,7 +38,7 @@
 
 			struct WindowData {
 				std::string Title;
-				unsigned int Width, Height;
+				unsigned int Width = 1080, Height = 720;
 				bool IsVSync = true;
 
 				EventFn EventCb;

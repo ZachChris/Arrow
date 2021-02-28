@@ -9,27 +9,27 @@ namespace Arrow {
 
 	std::shared_ptr<Shader> Shader::Create(const std::string& filepath) {
 		switch (RendererAPI::GetAPI()) {
-			case RendererAPI::API::NONE:	return nullptr; AR_ERROR("No API selected!!!"); break;
+			case RendererAPI::API::NONE:	return nullptr; ASSERT(false, "No API selected"); break;
 			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(filepath); break;
 		}
 
-		AR_ERROR("No Shader Created!!!");
+		AR_ERROR("No Shader Created");
 		return nullptr;
 	}
 
 	std::shared_ptr<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) {
 		switch (RendererAPI::GetAPI()) {
-			case RendererAPI::API::NONE:	return nullptr; AR_ERROR("No API selected!!!"); break;
+			case RendererAPI::API::NONE:	return nullptr; ASSERT(false, "No API selected"); break;
 			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc); break;
 		}
 
-		AR_ERROR("No Shader Created!!!");
+		AR_ERROR("No Shader Created");
 		return nullptr;
 	}
 
 	void ShaderLibrary::Add(std::shared_ptr<Shader> shader) {
 		if (Exists(shader->GetName()))
-			AR_ERROR("Shader {0} already exists");
+			AR_ERROR("Shader {0} already exists", shader->GetName());
 
 		m_Shaders[shader->GetName()] = shader;
 	}

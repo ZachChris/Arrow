@@ -7,6 +7,16 @@ namespace Arrow{
 	class VertexBuffer;
 	class IndexBuffer;
 
+	struct Vertex {
+		glm::vec3 Position;
+		glm::vec2 UV;
+		glm::vec3 Normal;
+		glm::vec3 Tangent;
+
+		Vertex(glm::vec3 position, glm::vec2 uv, glm::vec3 normal, glm::vec3 tangent = glm::vec3(0.0f))
+			: Position(position), UV(uv), Normal(normal), Tangent(tangent) {}
+	};
+
 	class Model {
 	public:	
 		Model(const std::string& filepath);
@@ -23,8 +33,8 @@ namespace Arrow{
 		//Fixxed Model
 		static std::shared_ptr<Model> CreateCube();
 	private:
-		//void ProcessFile(const std::string& source);
 		void ProcessObjFile(const std::string& source);
+		void CalculateTangents(std::vector<Vertex>& vertex, const std::vector<unsigned int>& index);
 	private:
 		std::shared_ptr<VertexBuffer> m_VertexBuffer;
 		std::shared_ptr<IndexBuffer> m_IndexBuffer;

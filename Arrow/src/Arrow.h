@@ -1,8 +1,8 @@
 #pragma once
 
-//---For use by Arrow Applications---
+//---For use by Arrow Applications---//
 
-//---Core---
+//-----Core-----//
 #include "Arrow/Core/Core.h"
 #include "Arrow/Core/Application.h"
 #include "Arrow/Core/Log.h"
@@ -10,17 +10,17 @@
 #include "Arrow/Core/LayerStack.h"
 #include "Arrow/Core/DeltaTime.h"
 
-//---Events---
+//-----Events-----//
 #include "Arrow/Events/Events.h"
 #include "Arrow/Events/InputEvents.h"
 #include "Arrow/Events/ApplicationEvents.h"
 
-//---Input---
+//-----Input-----//
 #include "Arrow/Input/Input.h"
 #include "Arrow/Input/KeyCodes.h"
 #include "Arrow/Input/MouseCodes.h"
 
-//---Renderer---
+//-----Renderer-----//
 #include "Arrow/Renderer/Renderer.h"
 #include "Arrow/Renderer/Camera.h"
 #include "Arrow/Renderer/CameraController.h"
@@ -35,6 +35,6 @@
 #include "Arrow/Renderer/RenderCommand.h"
 
 
-//---Entry Point---------------------
+//-----Entry Point-----//
 
 #include "Arrow/Core/EntryPoint.h"

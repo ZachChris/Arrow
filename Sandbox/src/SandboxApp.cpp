@@ -17,10 +17,10 @@ public:
 		vertexArray = Arrow::VertexArray::Create();
 
 		model = Arrow::Model::Create("resources/models/sphere.obj");
-		
+
 		vertexArray->AddVertexBuffer(model->GetVertexBuffer());
 		vertexArray->SetIndexBuffer(model->GetIndexBuffer());
-
+		
 		texture = Arrow::Texture2D::Create("resources/textures/test/woodenFloor_albedo.png");
 		normal = Arrow::Texture2D::Create("resources/textures/test/woodenFloor_normals.png");
 		specular = Arrow::Texture2D::Create("resources/textures/test/woodenFloor_metalness.png");
@@ -33,7 +33,7 @@ public:
 										  "resources/textures/skybox/back.png"});
 
 		skyboxShader = shaderLibrary.Load("resources/shaders/Skybox.glsl");
-		drawShader = shaderLibrary.Load("resources/shaders/PBR.glsl");
+		drawShader = shaderLibrary.Load("resources/shaders/Material.glsl");
 		framebufferShader = shaderLibrary.Load("resources/shaders/FrameBuffer.glsl");
 
 		Arrow::Renderer::Init(skyboxShader, drawShader, framebufferShader, skybox);
@@ -61,7 +61,7 @@ public:
 
 		vertexArray->Bind();
 
-		Arrow::Renderer::Submit(model, glm::vec3(0.0f));
+		Arrow::Renderer::Submit(model);
 
 		Arrow::Renderer::EndScene(frameBuffer);
 	}
@@ -77,7 +77,7 @@ public:
 		}
 	}
 private:
-	//---Rendering---
+	//---Rendering---//
 	Arrow::Ref<Arrow::VertexArray> vertexArray;
 	Arrow::Ref<Arrow::FrameBuffer> frameBuffer;
 	Arrow::Ref<Arrow::Model> model;
@@ -89,11 +89,8 @@ private:
 	Arrow::PointLight pointLight;
 	Arrow::SpotLight spotLight;
 
-	//---Camera---
+	//---Camera---//
 	Arrow::PerspectiveCameraController controller;
-
-	//---Objects
-	glm::mat4 m_Model;
 };
 
 class Sandbox : public Arrow::Application {

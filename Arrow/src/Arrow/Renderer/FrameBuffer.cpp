@@ -8,11 +8,11 @@ namespace Arrow {
 
 	std::shared_ptr<FrameBuffer> FrameBuffer::Create(const FrameBufferSpecifications& specs) {
 		switch (RendererAPI::GetAPI()) {
-			case RendererAPI::API::NONE: return nullptr; AR_ERROR("No API selected!!!"); break;
+			case RendererAPI::API::NONE: return nullptr; ASSERT(false, "No API selected"); break;
 			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLFrameBuffer>(specs); break;
 		}
 
-		AR_ERROR("No Vertex Buffer Created!!!");
+		AR_ERROR("No Vertex Buffer Created");
 		return nullptr;
 	}
 

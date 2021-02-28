@@ -9,6 +9,8 @@
 	#error Arrow Engine supports only windows x64
 #endif
 
+#define ASSERT(x, ...) if((x)) { AR_ERROR(__VA_ARGS__); __debugbreak(); }
+
 #define BIND_EVENT_FN(x) std::bind(x, this, std::placeholders::_1)
 
 namespace Arrow {

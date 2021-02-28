@@ -15,16 +15,18 @@ out vec3 v_FragPos;
 out mat3 v_TBN;
 
 void main(){
-	vec3 T = normalize(a_Tangent);
-	vec3 N = normalize(a_NormalCoord);
+	mat3 model = transpose(inverse(mat3(u_Model)));
+	vec3 T = normalize(model * a_Tangent);
+	vec3 N = normalize(model * a_NormalCoord);
 	T = normalize(T - dot(T, N) * N);
 	vec3 B =  cross(N, T);
-	v_TBN = mat3(u_Model) * mat3(T, B, N);
+
+	v_TBN = mat3(T, B, N);
 
 	gl_Position = u_ProgView * u_Model * vec4(a_Position, 1.0);
 	v_FragPos = vec3(u_Model * vec4(a_Position, 1.0));
 	v_Normal = mat3(u_Model) * a_NormalCoord;
-	v_TexCoord = vec2(a_TexCoord.x, 1.0 - a_TexCoord.y);
+	v_TexCoord = a_TexCoord;
 }
 
 #type fragment
@@ -147,7 +149,9 @@ vec3 CalculateSpotLight(SpotLight light, vec3 normal, vec3 viewDirection) {
 }
 
 void main() {
-	//vec3 normal = normalize(v_TBN * (2 * texture2D(u_NormalMap, v_TexCoord).rgb - 1));
+	//vec3 normal = texture2D(u_NormalMap, v_TexCoord).xyz;
+	//normal = 255.0/128.0 * normal - 1;
+	//normal = v_TBN * normal;
 	vec3 normal = normalize(v_Normal);
 
 	vec3 viewDir = normalize(u_ViewPos - v_FragPos);

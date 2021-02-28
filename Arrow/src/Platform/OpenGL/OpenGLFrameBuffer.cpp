@@ -30,11 +30,9 @@ namespace Arrow {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		//glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, m_Specs.Sambles, GL_RGBA8, m_Specs.Width, m_Specs.Height, GL_FALSE);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Specs.Width, m_Specs.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
-
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, m_ColorAttachment, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorAttachment, 0);
 		
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthAttachment);
 		glBindTexture(GL_TEXTURE_2D, m_DepthAttachment);
@@ -46,16 +44,15 @@ namespace Arrow {
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment, 0);
 
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-			AR_ERROR("FrameBuffer Incompete! Error: {0}", glGetError());
+		ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE, "FrameBuffer Incompete!");
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	const void OpenGLFrameBuffer::Bind() {
+	void OpenGLFrameBuffer::Bind() const {
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 	}
-	const void OpenGLFrameBuffer::Unbind() {
+	void OpenGLFrameBuffer::Unbind() const {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 

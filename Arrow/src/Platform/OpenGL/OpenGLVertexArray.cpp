@@ -1,6 +1,7 @@
 #include "arpch.h"
 
 #include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Arrow/Renderer/Shader.h"
 
 #include <glad/glad.h>
 
@@ -21,7 +22,7 @@ namespace Arrow {
 			case ShaderDataType::Bool:		return GL_BOOL;
 		}
 
-		AR_ERROR("Uknown Shader Data Type!!!");
+		AR_ERROR("Uknown Shader Data Type");
 		return 0;
 	}
 

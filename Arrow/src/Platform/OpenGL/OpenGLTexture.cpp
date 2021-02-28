@@ -25,7 +25,7 @@ namespace Arrow {
 		if (m_LocalBuffer)
 			stbi_image_free(m_LocalBuffer);
 		else
-			AR_ERROR("No Texture2D data!!!");
+			AR_ERROR("No Texture2D data");
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D() {
@@ -59,7 +59,7 @@ namespace Arrow {
 				glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_LocalBuffer);
 				stbi_image_free(m_LocalBuffer);
 			} else
-				AR_ERROR("No Cubemap data({0})!!!", i+1);
+				AR_ERROR("No Cubemap data({0})", i+1);
 		}
 	}
 
