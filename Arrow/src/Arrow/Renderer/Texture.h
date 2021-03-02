@@ -7,6 +7,18 @@
 
 namespace Arrow {
 
+	enum class TextureFormat {
+		Red, RG, RGB, RGBA, Depth, DepthStencil
+	};
+
+	struct TextureSpecifications {
+		TextureFormat Format;
+		//To DO: Parametri
+
+		TextureSpecifications(TextureFormat format = TextureFormat::RGBA)
+			: Format(format) {}
+	};
+
 	class Texture {
 	public:
 		virtual int GetWidth() = 0;
@@ -26,7 +38,7 @@ namespace Arrow {
 		virtual void Bind(uint32_t slot = 0)  const override= 0;
 		virtual void Unbind() const override = 0;
 
-		static std::shared_ptr<Texture2D> Create(const std::string& filepath);
+		static std::shared_ptr<Texture2D> Create(const std::string& filepath, const TextureSpecifications& specs = TextureSpecifications());
 	};
 
 	class Cubemap : public Texture {

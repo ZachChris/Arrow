@@ -42,7 +42,7 @@ namespace Arrow {
 		return result;
 	}
 
-	GLenum ShaderType(const std::string& type) {
+	static GLenum ShaderType(const std::string& type) {
 		if (type == "vertex")
 			return GL_VERTEX_SHADER;
 		if (type == "fragment" || type == "pixel")

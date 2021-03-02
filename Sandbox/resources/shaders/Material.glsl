@@ -3,8 +3,9 @@
 
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec2 a_TexCoord;
-layout(location = 2) in vec3 a_NormalCoord;
+layout(location = 2) in vec3 a_Normal;
 layout(location = 3) in vec3 a_Tangent;
+layout(location = 4) in vec3 a_Bitangent;
 
 uniform mat4 u_ProgView;
 uniform mat4 u_Model;
@@ -15,17 +16,16 @@ out vec3 v_FragPos;
 out mat3 v_TBN;
 
 void main(){
-	mat3 model = transpose(inverse(mat3(u_Model)));
-	vec3 T = normalize(model * a_Tangent);
-	vec3 N = normalize(model * a_NormalCoord);
+	vec3 T = normalize(a_Tangent);
+	vec3 N = normalize(a_Normal);
 	T = normalize(T - dot(T, N) * N);
-	vec3 B =  cross(N, T);
+	vec3 B =  normalize(a_Bitangent);
 
-	v_TBN = mat3(T, B, N);
+	v_TBN = mat3(u_Model) * mat3(T, B, N);
 
 	gl_Position = u_ProgView * u_Model * vec4(a_Position, 1.0);
 	v_FragPos = vec3(u_Model * vec4(a_Position, 1.0));
-	v_Normal = mat3(u_Model) * a_NormalCoord;
+	v_Normal = mat3(u_Model) * a_Normal;
 	v_TexCoord = a_TexCoord;
 }
 
@@ -104,7 +104,7 @@ vec3 CalculatePointLight(PointLight light, vec3 normal, vec3 viewDirection) {
 	float ambientStrength = 0.1;
     vec3 ambient = ambientStrength * light.Color * vec3(texture(u_Texture, v_TexCoord)) * attenuation;
 
-	float diff = max(dot(normal, lightDir), 0.0);
+	float diff = max(dot(lightDir, normal), 0.0);
 	vec3 diffuse = diff * light.Color * vec3(texture(u_Texture, v_TexCoord)) * attenuation;
   
 	vec3 reflectDir = reflect(-lightDir, normal);
@@ -149,9 +149,7 @@ vec3 CalculateSpotLight(SpotLight light, vec3 normal, vec3 viewDirection) {
 }
 
 void main() {
-	//vec3 normal = texture2D(u_NormalMap, v_TexCoord).xyz;
-	//normal = 255.0/128.0 * normal - 1;
-	//normal = v_TBN * normal;
+	//vec3 normal = normalize(v_TBN * texture2D(u_NormalMap, v_TexCoord).xyz * vec3(0.5) + vec3(0.5));
 	vec3 normal = normalize(v_Normal);
 
 	vec3 viewDir = normalize(u_ViewPos - v_FragPos);

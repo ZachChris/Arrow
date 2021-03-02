@@ -32,14 +32,14 @@ namespace Arrow {
 
 	void OpenGLRendererAPI::ChangeDepthMode(DepthMode mode) {
 		switch (mode) {
-			case DepthMode::Always: glDepthFunc(GL_ALWAYS); break;
-			case DepthMode::Never: glDepthFunc(GL_NEVER); break;
-			case DepthMode::Less: glDepthFunc(GL_LESS); break;
-			case DepthMode::Equal: glDepthFunc(GL_EQUAL); break;
-			case DepthMode::Lequal: glDepthFunc(GL_LEQUAL); break;
-			case DepthMode::Greater: glDepthFunc(GL_GREATER); break;
-			case DepthMode::Notequal: glDepthFunc(GL_NOTEQUAL); break;
-			case DepthMode::Gequal: glDepthFunc(GL_GEQUAL); break;
+			case DepthMode::Always:		glDepthFunc(GL_ALWAYS); break;
+			case DepthMode::Never:		glDepthFunc(GL_NEVER); break;
+			case DepthMode::Less:		glDepthFunc(GL_LESS); break;
+			case DepthMode::Equal:		glDepthFunc(GL_EQUAL); break;
+			case DepthMode::Lequal:		glDepthFunc(GL_LEQUAL); break;
+			case DepthMode::Greater:	glDepthFunc(GL_GREATER); break;
+			case DepthMode::Notequal:	glDepthFunc(GL_NOTEQUAL); break;
+			case DepthMode::Gequal:		glDepthFunc(GL_GEQUAL); break;
 		}
 
 	}

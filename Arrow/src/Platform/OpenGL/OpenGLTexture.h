@@ -8,7 +8,7 @@ namespace Arrow {
 
 	class OpenGLTexture2D : public Texture2D {
 	public:
-		OpenGLTexture2D(const std::string& filepath);
+		OpenGLTexture2D(const std::string& filepath, const TextureSpecifications& specs);
 		~OpenGLTexture2D();
 
 		inline int GetWidth() override { return m_Width; }
@@ -21,6 +21,7 @@ namespace Arrow {
 		uint32_t m_RendererID;
 		unsigned char* m_LocalBuffer;
 		int m_Width, m_Height, m_BPP;
+		TextureSpecifications m_Specs;
 	};
 
 	class OpenGLCubemap : public Cubemap {

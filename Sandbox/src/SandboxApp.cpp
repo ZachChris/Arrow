@@ -11,7 +11,7 @@ public:
 		pointLight({ -1.0f, 1.0f, 0.0f }, glm::vec3(1.0f), 1.0f, 0.007f, 0.0002f) ,
 		spotLight({ 1.0f, 0.0f, 0.0f } , { -1.0f, 0.0f, 0.0f }, glm::vec3(1.0f), glm::cos(glm::radians(12.5f)), 1.0f, 0.007f, 0.0002f) {
 
-		Arrow::FrameBufferSpecifications specs = { 1280, 720 };
+		Arrow::FrameBufferSpecifications specs = { 1280, 720 , 1 };
 		frameBuffer = Arrow::FrameBuffer::Create(specs);
 
 		vertexArray = Arrow::VertexArray::Create();
@@ -20,7 +20,7 @@ public:
 
 		vertexArray->AddVertexBuffer(model->GetVertexBuffer());
 		vertexArray->SetIndexBuffer(model->GetIndexBuffer());
-		
+
 		texture = Arrow::Texture2D::Create("resources/textures/test/woodenFloor_albedo.png");
 		normal = Arrow::Texture2D::Create("resources/textures/test/woodenFloor_normals.png");
 		specular = Arrow::Texture2D::Create("resources/textures/test/woodenFloor_metalness.png");
@@ -35,7 +35,6 @@ public:
 		skyboxShader = shaderLibrary.Load("resources/shaders/Skybox.glsl");
 		drawShader = shaderLibrary.Load("resources/shaders/Material.glsl");
 		framebufferShader = shaderLibrary.Load("resources/shaders/FrameBuffer.glsl");
-
 		Arrow::Renderer::Init(skyboxShader, drawShader, framebufferShader, skybox);
 	}
 
@@ -61,7 +60,7 @@ public:
 
 		vertexArray->Bind();
 
-		Arrow::Renderer::Submit(model);
+		Arrow::Renderer::Submit(model, glm::vec3(0.0f));
 
 		Arrow::Renderer::EndScene(frameBuffer);
 	}

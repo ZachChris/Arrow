@@ -6,7 +6,38 @@
 
 namespace Arrow {
 
-	OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath) {
+	static GLenum FormatType(const TextureFormat& format) {
+		switch (format) {
+			case TextureFormat::Red:			return GL_RED;
+			case TextureFormat::RG:				return GL_RG;
+			case TextureFormat::RGB:			return GL_RGB;
+			case TextureFormat::RGBA:			return GL_RGBA;
+			case TextureFormat::Depth:			return GL_DEPTH_COMPONENT;
+			case TextureFormat::DepthStencil:	return GL_DEPTH_STENCIL;
+		}
+
+		ASSERT(false, "Texture format incvalid");
+
+		return 0;
+	}
+
+	static GLenum InternalFormatType(const TextureFormat& format) {
+		switch (format) {
+		case TextureFormat::Red:			return GL_R8;
+		case TextureFormat::RG:				return GL_RG8;
+		case TextureFormat::RGB:			return GL_RGB8;
+		case TextureFormat::RGBA:			return GL_RGBA8;
+		case TextureFormat::Depth:			return GL_DEPTH_COMPONENT;
+		case TextureFormat::DepthStencil:	return GL_DEPTH_STENCIL;
+		}
+
+		ASSERT(false, "Texture format incvalid");
+
+		return 0;
+	}
+
+	OpenGLTexture2D::OpenGLTexture2D(const std::string& filepath, const TextureSpecifications& specs)
+		: m_Specs(specs) {
 		stbi_set_flip_vertically_on_load(1);
 		m_LocalBuffer = stbi_load(filepath.c_str(), &m_Width, &m_Height, &m_BPP, 4);
 
@@ -19,7 +50,7 @@ namespace Arrow {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_LocalBuffer);
+		glTexImage2D(GL_TEXTURE_2D, 0, InternalFormatType(m_Specs.Format), m_Width, m_Height, 0, FormatType(m_Specs.Format), GL_UNSIGNED_BYTE, m_LocalBuffer);
 		Unbind();
 
 		if (m_LocalBuffer)

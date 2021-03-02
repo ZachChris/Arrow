@@ -12,9 +12,10 @@ namespace Arrow{
 		glm::vec2 UV;
 		glm::vec3 Normal;
 		glm::vec3 Tangent;
+		glm::vec3 Bitangent;
 
-		Vertex(glm::vec3 position, glm::vec2 uv, glm::vec3 normal, glm::vec3 tangent = glm::vec3(0.0f))
-			: Position(position), UV(uv), Normal(normal), Tangent(tangent) {}
+		Vertex(glm::vec3 position, glm::vec2 uv, glm::vec3 normal, glm::vec3 tangent = glm::vec3(0.0f), glm::vec3 bitangent = glm::vec3(0.0f))
+			: Position(position), UV(uv), Normal(normal), Tangent(tangent), Bitangent(bitangent) {}
 	};
 
 	class Model {

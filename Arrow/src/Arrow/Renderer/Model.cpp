@@ -117,7 +117,7 @@ namespace Arrow {
 					fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
 					vertices.push_back(vertex);
 				} else if (strcmp(key, "vt") == 0) {
-					fscanf(file, "%f %f %f\n", &texCoor.x, &texCoor.y);
+					fscanf(file, "%f %f\n", &texCoor.x, &texCoor.y);
 					texCoords.push_back(texCoor);
 				} else if (strcmp(key, "vn") == 0) {
 					fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
@@ -164,7 +164,7 @@ namespace Arrow {
 			CalculateTangents(vertex, indecies);
 
 			std::vector<float> vertexData;
-			for (auto vrt : vertex) {
+			for (const auto& vrt : vertex) {
 				vertexData.push_back(vrt.Position.x);
 				vertexData.push_back(vrt.Position.y);
 				vertexData.push_back(vrt.Position.z);
@@ -176,6 +176,9 @@ namespace Arrow {
 				vertexData.push_back(vrt.Tangent.x);
 				vertexData.push_back(vrt.Tangent.y);
 				vertexData.push_back(vrt.Tangent.z);
+				vertexData.push_back(vrt.Bitangent.x);
+				vertexData.push_back(vrt.Bitangent.y);
+				vertexData.push_back(vrt.Bitangent.z);
 			}
 
 			m_VertexBuffer = VertexBuffer::Create(vertexData.data(), (uint32_t)vertexData.size() * sizeof(float));
@@ -184,8 +187,9 @@ namespace Arrow {
 			BufferLayout layout = {
 				{ ShaderDataType::Float3, "a_Position" },
 				{ ShaderDataType::Float2, "a_TexCoord"},
-				{ ShaderDataType::Float3, "a_NormalCoord"},
-				{ ShaderDataType::Float3, "a_Tangent"}
+				{ ShaderDataType::Float3, "a_Normal"},
+				{ ShaderDataType::Float3, "a_Tangent"},
+				{ ShaderDataType::Float3, "a_Bitangent"}
 			};
 
 			m_VertexBuffer->SetLayout(layout);
@@ -193,8 +197,8 @@ namespace Arrow {
 	}
 
 	void Model::CalculateTangents(std::vector<Vertex>& vertex, const std::vector<unsigned int>& index) {
-		glm::vec3 tang;
-		for (int i = 0; i < index.size(); i += 3) {
+		glm::vec3 tang, bitang;
+		for (size_t i = 0; i < index.size(); i += 3) {
 			glm::vec3 edge1 = vertex[index[i + 1]].Position - vertex[index[i]].Position;
 			glm::vec3 edge2 = vertex[index[i + 2]].Position - vertex[index[i]].Position;
 			glm::vec2 deltaUV1 = vertex[index[i + 1]].UV - vertex[index[i]].UV;
@@ -210,9 +214,18 @@ namespace Arrow {
 			vertex[index[i]].Tangent += tang;
 			vertex[index[i + 1]].Tangent += tang;
 			vertex[index[i + 2]].Tangent += tang;
+
+			bitang.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+			bitang.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+			bitang.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
+
+			vertex[index[i]].Bitangent += bitang;
+			vertex[index[i + 1]].Bitangent += bitang;
+			vertex[index[i + 2]].Bitangent += bitang;
 		}
-		for (auto vrt : vertex) {
+		for (const auto& vrt : vertex) {
 			glm::normalize(vrt.Tangent);
+			glm::normalize(vrt.Bitangent);
 		}
 	}
 
