@@ -1,6 +1,8 @@
 #include "arpch.h"
 #include "OpenGLContext.h"
 
+#include "Core/Core.h"
+
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
@@ -12,6 +14,13 @@ namespace Arrow {
 	void OpenGLContext::Init() {
 		glfwMakeContextCurrent(m_Window);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+		ASSERT(status == 0, "Failed to initialize Glad!");
+
+		AR_INFO("OpenGL Info:");
+		AR_INFO(" Vendor: {0}", glGetString(GL_VENDOR));
+		AR_INFO(" Renderer: {0}", glGetString(GL_RENDERER));
+		AR_INFO(" Version: {0}", glGetString(GL_VERSION));
 
 		glEnable(GL_MULTISAMPLE);
 

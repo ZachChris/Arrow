@@ -18,6 +18,10 @@ namespace Arrow {
 
 	static RendererStorage* s_Data;
 
+	void Renderer::Init() {
+		AR_WARN("Renderer isn't initalized properly!");
+	}
+
 	void Renderer::Init(const std::shared_ptr<Shader>& skyboxShader, const std::shared_ptr<Shader>& drawShader, const std::shared_ptr<Shader>& framebufferShader, const std::shared_ptr<Cubemap>& skybox) {
 		s_Data = new RendererStorage();
 		
@@ -175,19 +179,19 @@ namespace Arrow {
 
 	void Renderer::EndScene(const std::shared_ptr<FrameBuffer>& frameBuffer) {
 		RenderCommand::BindDrawFramebuffer();
-
+		
 		RenderCommand::DepthTest(false);
-
+		
 		RenderCommand::SetClearColor({ 1.0f, 0.0f, 1.0f, 1.0f });
 		RenderCommand::Clear();
-
+		
 		s_Data->FramebufferShader->Bind();
 		s_Data->FramebufferArray->Bind();
-
+		
 		RenderCommand::BindTexture2D(frameBuffer->GetColorAttachment());
-
+		
 		RenderCommand::Draw(s_Data->FramebufferArray);
-
+		
 		RenderCommand::DepthTest(true);
 	}
 }

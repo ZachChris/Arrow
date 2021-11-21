@@ -12,6 +12,8 @@ namespace Arrow {
 	public:
 		virtual ~FrameBuffer() {}
 
+		virtual void Resize(uint32_t width, uint32_t height) = 0;
+
 		virtual const FrameBufferSpecifications& GetSpecifications() const = 0;
 		virtual const uint32_t& GetColorAttachment() const = 0;
 

@@ -15,6 +15,9 @@
 #include "Arrow/Events/InputEvents.h"
 #include "Arrow/Events/ApplicationEvents.h"
 
+//-----ImGui-----//
+#include "Arrow/ImGui/ImGuiLayer.h"
+
 //-----Input-----//
 #include "Arrow/Input/Input.h"
 #include "Arrow/Input/KeyCodes.h"
@@ -37,4 +40,4 @@
 
 //-----Entry Point-----//
 
-#include "Arrow/Core/EntryPoint.h"
+//#include "Arrow/Core/EntryPoint.h"

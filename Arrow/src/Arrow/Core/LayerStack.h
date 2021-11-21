@@ -27,7 +27,7 @@ namespace Arrow {
 
 	private:
 		std::vector<Layer*> m_LayerStack;
-		std::vector<Layer*>::iterator  m_LayerInsert;
+		unsigned int m_LayerInsertIndex = 0;
 	};
 
 }

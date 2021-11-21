@@ -9,6 +9,8 @@ namespace Arrow {
 		OpenGLFrameBuffer(const FrameBufferSpecifications& specs);
 		virtual ~OpenGLFrameBuffer();
 
+		virtual void Resize(uint32_t width, uint32_t height) override;
+
 		virtual const FrameBufferSpecifications& GetSpecifications() const override { return m_Specs; }
 		virtual const uint32_t& GetColorAttachment() const override { return m_ColorAttachment; }
 
@@ -17,8 +19,8 @@ namespace Arrow {
 	private:
 		void Invalidate();
 	private:
-		uint32_t m_RendererID;
-		uint32_t m_ColorAttachment, m_DepthAttachment;
+		uint32_t m_RendererID = 0;
+		uint32_t m_ColorAttachment = 0, m_DepthAttachment = 0;
 		FrameBufferSpecifications m_Specs;
 	};
 

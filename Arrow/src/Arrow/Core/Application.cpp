@@ -20,7 +20,8 @@ namespace Arrow {
 
 		lastTime = m_Window->GetTime();
 
-		//Renderer::SetRendererAPI(RendererAPI::OpenGL);
+		m_ImGuiLayer = new ImGuiLayer;
+		PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application() {
@@ -68,6 +69,11 @@ namespace Arrow {
 
 			for (auto layer : m_LayerStack)
 				layer->OnUpdate(deltaTime);
+
+			m_ImGuiLayer->Begin();
+			for (auto layer : m_LayerStack)
+				layer->OnImGuiRender();
+			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
 		}

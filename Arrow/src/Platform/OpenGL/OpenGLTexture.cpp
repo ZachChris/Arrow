@@ -16,7 +16,7 @@ namespace Arrow {
 			case TextureFormat::DepthStencil:	return GL_DEPTH_STENCIL;
 		}
 
-		ASSERT(false, "Texture format incvalid");
+		ASSERT(false, "Texture format invalid");
 
 		return 0;
 	}
@@ -31,7 +31,7 @@ namespace Arrow {
 		case TextureFormat::DepthStencil:	return GL_DEPTH_STENCIL;
 		}
 
-		ASSERT(false, "Texture format incvalid");
+		ASSERT(false, "Texture format invalid");
 
 		return 0;
 	}

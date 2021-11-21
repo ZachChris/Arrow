@@ -1,18 +1,16 @@
 #pragma once
 
-#include "Core.h"
-#include "Window.h"
-#include "LayerStack.h"
+#include "Arrow/Core/Core.h"
+#include "Arrow/Core/Window.h"
+#include "Arrow/Core/LayerStack.h"
 
 #include "Arrow/Events/Events.h"
 #include "Arrow/Events/InputEvents.h"
 #include "Arrow/Events/ApplicationEvents.h"
 
 #include "Arrow/Renderer/Renderer.h"
-#include "Arrow/Renderer/RenderCommand.h"
-#include "Arrow/Renderer/Buffers.h"
-#include "Arrow/Renderer/Shader.h"
-#include "Arrow/Renderer/VertexArray.h"
+
+#include "Arrow/ImGui/ImGuiLayer.h"
 
 namespace Arrow {
 
@@ -39,6 +37,7 @@ namespace Arrow {
 	private:
 		//---Window Data---
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		bool m_Minimized = false;
 		LayerStack m_LayerStack;

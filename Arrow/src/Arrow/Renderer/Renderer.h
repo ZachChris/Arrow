@@ -19,6 +19,7 @@ namespace Arrow {
 
 	class Renderer {
 	public:
+		static void Init();
 		static void Init(const std::shared_ptr<Shader>& skyboxShader, const std::shared_ptr<Shader>& drawShader, const std::shared_ptr<Shader>& framebufferShader, const std::shared_ptr<Cubemap>& skybox);
 		static void Shutdown();
 

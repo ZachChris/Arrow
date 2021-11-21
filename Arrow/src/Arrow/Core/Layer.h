@@ -14,6 +14,7 @@ namespace Arrow {
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate(DeltaTime deltaTime) {}
+		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 
 		inline std::string& GetName() { return m_DebugName; }
