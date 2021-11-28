@@ -36,6 +36,8 @@ SandboxLayer::SandboxLayer()
 	Arrow::Renderer::Init(skyboxShader, drawShader, framebufferShader, skybox);
 }
 
+void SandboxLayer::OnAttach() {}
+
 void SandboxLayer::OnUpdate(Arrow::DeltaTime deltaTime) {
 	frameBuffer->Bind();
 	Arrow::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });

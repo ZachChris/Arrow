@@ -2,7 +2,7 @@ workspace "Arrow"
 	architecture "x64"
 	language "C++"
 	cppdialect "C++17"
-	startproject "Sandbox"
+	startproject "Arrow-Editor"
 
 	configurations {
 		"Debug",
