@@ -20,7 +20,7 @@ namespace Arrow {
 
 		lastTime = m_Window->GetTime();
 
-		m_ImGuiLayer = new ImGuiLayer;
+		m_ImGuiLayer = CreateImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 	}
 

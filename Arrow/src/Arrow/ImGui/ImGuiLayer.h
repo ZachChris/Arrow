@@ -9,14 +9,17 @@ namespace Arrow {
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		virtual void OnAttach() override;
-		virtual void OnDetach() override;
-		virtual void OnImGuiRender() override;
+		virtual void OnAttach() override {}
+		virtual void OnDetach() override {}
+		virtual void OnImGuiRender() override {}
 
-		void Begin();
-		void End();
+		virtual void Begin() {}
+		virtual void End() {}
+
+		
 	private:
 		//void SetStyle(); TO DO
 	};
 
+	ImGuiLayer* CreateImGuiLayer();
 }
