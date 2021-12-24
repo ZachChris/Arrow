@@ -7,7 +7,7 @@
 	#include "Arrow/Events/ApplicationEvents.h"
 	#include "Arrow/Events/InputEvents.h"
 
-	#include "Platform\OpenGL\OpenGLContext.h"
+	#include "Platform/OpenGL/OpenGLContext.h"
 
 	namespace Arrow {
 		static bool glInitialized = false;

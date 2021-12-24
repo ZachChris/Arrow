@@ -1,12 +1,13 @@
-[submodule "Arrow/vendor/imgui"]
-	path = Arrow/vendor/imgui
-	url = https://github.com/TheCherno/imgui.git
-[submodule "Arrow/vendor/GLFW"]
-	path = Arrow/vendor/GLFW
-	url = https://github.com/TheCherno/glfw.git
 [submodule "Arrow/vendor/spdlog"]
 	path = Arrow/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
 [submodule "Arrow/vendor/glm"]
 	path = Arrow/vendor/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "Arrow/vendor/GLFW"]
+	path = Arrow/vendor/GLFW
+	url = https://github.com/glfw/glfw.git
+[submodule "Arrow/vendor/ImGui"]
+	path = Arrow/vendor/ImGui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking

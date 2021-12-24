@@ -1,3 +1,5 @@
+include "Dependencies"
+
 workspace "Arrow"
 	architecture "x64"
 	language "C++"
@@ -10,14 +12,7 @@ workspace "Arrow"
 		"Dist"
 	}
 
-outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
---Include directories relative to root folder (solution dir)
-IncludeDir = {}
-IncludeDir["GLFW"] = "Arrow/vendor/GLFW/include"
-IncludeDir["Glad"] = "Arrow/vendor/Glad/include"
-IncludeDir["ImGui"] = "Arrow/vendor/imgui"
-IncludeDir["glm"] = "Arrow/vendor/glm"
+group "Engine"
 
 project "Arrow"
 	location "Arrow"
@@ -34,21 +29,21 @@ project "Arrow"
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/vendor/stb_image/**.h",
-		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp"
 	}
 
 	includedirs {
 		"%{prj.name}/src",
 		"Arrow/src/Arrow",
-		"%{prj.name}/vendor/spdlog/include",
-		"%{prj.name}/vendor/stb_image",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links {
@@ -175,8 +170,3 @@ project "Sandbox"
 			defines "AR_DIST"
 			runtime "Release"
 			optimize "on"
-
-group "Dependencies"
-	include "Arrow/vendor/GLFW"
-	include "Arrow/vendor/Glad"
-	include "Arrow/vendor/imgui"
