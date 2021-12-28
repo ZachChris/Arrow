@@ -1,1 +1,2 @@
 Arrow/vendor/* linguist-vendored
+*.c linguist-detectable=false

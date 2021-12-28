@@ -8,3 +8,6 @@
 	path = Arrow/vendor/ImGui
 	url = https://github.com/ocornut/imgui.git
 	branch = docking
+[submodule "Arrow/vendor/GLFW"]
+	path = Arrow/vendor/GLFW
+	url = https://github.com/TheCherno/glfw.git

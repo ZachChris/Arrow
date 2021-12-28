@@ -54,7 +54,9 @@ namespace Arrow {
 
         Arrow::Renderer::Submit(model, glm::vec3(0.0f));
 
-        Arrow::Renderer::EndScene(frameBuffer);
+        Arrow::Renderer::EndScene();
+
+        frameBuffer->Unbind();
     }
 
 	void EditorLayer::OnImGuiRender() {

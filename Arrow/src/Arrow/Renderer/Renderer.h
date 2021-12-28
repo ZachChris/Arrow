@@ -24,6 +24,8 @@ namespace Arrow {
 		static void Shutdown();
 
 		static void BeginScene(PerspectiveCameraController controller, PointLight pointLight, SpotLight spotLight);
+
+		static void EndScene() {}
 		static void EndScene(PerspectiveCameraController controller, const std::shared_ptr<FrameBuffer>& frameBuffer);
 		static void EndScene(const std::shared_ptr<FrameBuffer>& frameBuffer);
 		static void Submit(const std::shared_ptr<Model>& model, const glm::vec3& position = glm::vec3(0.0f), const glm::vec3& scale = glm::vec3(1.0f));
