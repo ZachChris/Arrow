@@ -1,2 +1,3 @@
 Arrow/vendor/* linguist-vendored
 *.c linguist-detectable=false
+*.h linguist-language=C++

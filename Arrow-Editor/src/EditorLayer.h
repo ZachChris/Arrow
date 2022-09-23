@@ -15,7 +15,7 @@ namespace Arrow {
 
 		virtual void OnAttach() override;
 		//virtual void OnDetach() override {}
-		//
+		
 		virtual void OnUpdate(DeltaTime deltaTime) override;
 		virtual void OnImGuiRender() override;
 
