@@ -33,6 +33,10 @@ namespace Arrow {
 		PointLight pointLight;
 		SpotLight spotLight;
 
+		Scene m_Scene;
+		Ref<Entity> m_Entity;
+		TransformComponent m_Transform;
+
 		//---Camera---//
 		PerspectiveCameraController controller;
 		glm::vec2 m_ViewportSize;

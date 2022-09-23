@@ -37,6 +37,9 @@
 #include "Arrow/Renderer/Renderer.h"
 #include "Arrow/Renderer/RenderCommand.h"
 
+//-----Scene-----//
+#include "Arrow/Scene/Entity.h"
+#include "Arrow/Scene/Component.h"
 
 //-----Entry Point-----//
 

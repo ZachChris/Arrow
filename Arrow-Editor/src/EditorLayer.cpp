@@ -6,7 +6,8 @@ namespace Arrow {
     EditorLayer::EditorLayer()
         : Layer("Editor Layer"), controller(60.0f, 1280.f / 720.f, 0.1f, 100.0f, 1.0f, 0.1f),
         pointLight({ -1.0f, 1.0f, 0.0f }, glm::vec3(1.0f), 1.0f, 0.007f, 0.0002f),
-        spotLight({ 1.0f, 0.0f, 0.0f }, { -1.0f, 0.0f, 0.0f }, glm::vec3(1.0f), glm::cos(glm::radians(12.5f)), 1.0f, 0.007f, 0.0002f) {
+        spotLight({ 1.0f, 0.0f, 0.0f }, { -1.0f, 0.0f, 0.0f }, glm::vec3(1.0f), glm::cos(glm::radians(12.5f)), 1.0f, 0.007f, 0.0002f),
+        m_Transform(glm::mat4(1)) {
 
         Arrow::FrameBufferSpecifications specs = { 1280, 720 , 1 };
         frameBuffer = Arrow::FrameBuffer::Create(specs);
@@ -33,18 +34,21 @@ namespace Arrow {
         drawShader = shaderLibrary.Load("resources/shaders/Material.glsl");
         framebufferShader = shaderLibrary.Load("resources/shaders/FrameBuffer.glsl");
         Arrow::Renderer::Init(skyboxShader, drawShader, framebufferShader, skybox);
+
+        m_Entity = std::make_shared<Entity>(m_Scene);
+        m_Entity->AddComponent(m_Transform);
     }
         
     void EditorLayer::OnAttach() {}
 
     void EditorLayer::OnUpdate(DeltaTime deltaTime) {
         frameBuffer->Bind();
-        Arrow::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-        Arrow::RenderCommand::Clear();
+        RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+        RenderCommand::Clear();
 
         controller.OnUpdate(deltaTime);
 
-        Arrow::Renderer::BeginScene(controller, pointLight, spotLight);
+        Renderer::BeginScene(controller, pointLight, spotLight);
 
         texture->Bind(0);
         normal->Bind(1);
@@ -52,9 +56,9 @@ namespace Arrow {
 
         vertexArray->Bind();
 
-        Arrow::Renderer::Submit(model, glm::vec3(0.0f));
+        Renderer::Submit(model, glm::vec3(0.0f));
 
-        Arrow::Renderer::EndScene();
+        Renderer::EndScene();
 
         frameBuffer->Unbind();
     }
